@@ -101,10 +101,10 @@ function Filters({ filters, expenseTypes, onApply }) {
 }
 
 export default function ExpenseIndex({ expenses, expense_types, filters }) {
-    const { showSuccess, showError } = useApp();
+    const { showSuccess, showError, currency } = useApp();
     const [deletingId, setDeletingId] = useState(null);
 
-    const fmt = (n) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n ?? 0);
+    const fmt = (n) => `${currency} ${Number(n ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
 
     const handleFilter = useCallback((params) => {
         router.get('/expenses', params, { preserveState: true, replace: true });

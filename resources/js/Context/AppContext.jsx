@@ -5,6 +5,15 @@ const AppContext = createContext(null);
 
 export function AppProvider({ children }) {
     const [loading, setLoading] = useState(false);
+    
+    // Currency logic
+    const [currency, setCurrencyState] = useState(() => {
+        return localStorage.getItem('expense_currency') || '$';
+    });
+    const setCurrency = useCallback((val) => {
+        localStorage.setItem('expense_currency', val);
+        setCurrencyState(val);
+    }, []);
 
     const showSuccess = useCallback((message) => {
         toast.success(message, {
@@ -30,7 +39,7 @@ export function AppProvider({ children }) {
     }, []);
 
     return (
-        <AppContext.Provider value={{ loading, setLoading, showSuccess, showError }}>
+        <AppContext.Provider value={{ loading, setLoading, showSuccess, showError, currency, setCurrency }}>
             {children}
         </AppContext.Provider>
     );

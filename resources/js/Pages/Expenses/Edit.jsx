@@ -17,7 +17,7 @@ function FormField({ label, error, children }) {
 const inputClass = "w-full bg-slate-900/80 border border-slate-600 text-white rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/40 transition-colors placeholder-slate-500";
 
 export default function ExpenseEdit({ expense, expense_types }) {
-    const { showSuccess, showError } = useApp();
+    const { showSuccess, showError, currency } = useApp();
     const exp = expense?.data ?? expense;
 
     const [form, setForm] = useState({
@@ -87,7 +87,7 @@ export default function ExpenseEdit({ expense, expense_types }) {
                         <div className="grid grid-cols-2 gap-4">
                             <FormField label="Amount *" error={errors.amount?.[0]}>
                                 <div className="relative">
-                                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">$</span>
+                                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">{currency}</span>
                                     <input
                                         type="number"
                                         step="0.01"

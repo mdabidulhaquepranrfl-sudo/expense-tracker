@@ -24,8 +24,8 @@ function BalanceBar({ salary, expense }) {
 }
 
 export default function SalaryIndex({ salary, monthly_expense, remaining_balance, salary_history, current_month }) {
-    const { showSuccess, showError } = useApp();
-    const fmt = (n) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n ?? 0);
+    const { showSuccess, showError, currency } = useApp();
+    const fmt = (n) => `${currency} ${Number(n ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
 
     const today = new Date();
     const [form, setForm] = useState({
@@ -87,7 +87,7 @@ export default function SalaryIndex({ salary, monthly_expense, remaining_balance
                             <div>
                                 <label className="block text-sm font-medium text-slate-300 mb-1.5">Salary Amount *</label>
                                 <div className="relative">
-                                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">$</span>
+                                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">{currency}</span>
                                     <input
                                         type="number"
                                         step="0.01"

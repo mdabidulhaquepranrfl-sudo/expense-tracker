@@ -1,5 +1,6 @@
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
+import { useApp } from '@/Context/AppContext';
 
 const navItems = [
     { label: 'Dashboard',      href: '/',               icon: '📊' },
@@ -12,6 +13,7 @@ const navItems = [
 export default function AuthenticatedLayout({ header, children }) {
     const user = usePage().props.auth.user;
     const [sidebarOpen, setSidebarOpen] = useState(true);
+    const { currency, setCurrency } = useApp();
     const currentPath = window.location.pathname;
 
     return (
@@ -97,7 +99,19 @@ export default function AuthenticatedLayout({ header, children }) {
                             {header || <h1 className="text-lg font-semibold text-white">Dashboard</h1>}
                         </div>
                         <div className="flex items-center gap-3">
-                            <div className="px-3 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs">
+                            <select
+                                value={currency}
+                                onChange={(e) => setCurrency(e.target.value)}
+                                className="bg-slate-800 border border-indigo-500/30 text-indigo-300 text-xs rounded-lg px-2 py-1.5 focus:ring-indigo-500 focus:border-indigo-500 outline-none cursor-pointer"
+                            >
+                                <option value="Tk">Tk</option>
+                                <option value="$">USD ($)</option>
+                                <option value="৳">BDT (৳)</option>
+                                <option value="€">EUR (€)</option>
+                                <option value="£">GBP (£)</option>
+                                <option value="₹">INR (₹)</option>
+                            </select>
+                            <div className="px-3 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs hidden sm:block">
                                 {new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
                             </div>
                         </div>

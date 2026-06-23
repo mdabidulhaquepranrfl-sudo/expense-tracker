@@ -1,6 +1,5 @@
-import { Link, usePage } from '@inertiajs/react';
+import { Link, usePage, Head, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import {
     Chart as ChartJS,
@@ -49,8 +48,11 @@ const chartOptions = {
     },
 };
 
+import { useApp } from '@/Context/AppContext';
+
 export default function Dashboard({ stats, category_breakdown, monthly_chart, weekly_chart, current_month }) {
-    const fmt = (n) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n ?? 0);
+    const { currency } = useApp();
+    const fmt = (n) => `${currency} ${Number(n ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
 
     const monthlyBarData = {
         labels: monthly_chart?.labels ?? [],
@@ -108,9 +110,12 @@ export default function Dashboard({ stats, category_breakdown, monthly_chart, we
         <AuthenticatedLayout header={
             <div className="flex items-center gap-3">
                 <h1 className="text-xl font-bold text-white">Dashboard</h1>
-                <span className="px-2.5 py-1 bg-indigo-500/20 text-indigo-300 text-xs rounded-full border border-indigo-500/30">
-                    {current_month}
-                </span>
+                <input 
+                    type="month" 
+                    value={current_month}
+                    onChange={(e) => router.get('/', { month: e.target.value }, { preserveState: true })}
+                    className="bg-indigo-500/10 text-indigo-300 text-xs rounded-lg border border-indigo-500/30 px-2.5 py-1 focus:outline-none focus:ring-1 focus:ring-indigo-500 cursor-pointer"
+                />
             </div>
         }>
             <Head title="Dashboard" />
@@ -195,7 +200,7 @@ export default function Dashboard({ stats, category_breakdown, monthly_chart, we
                                     <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: cat.color }} />
                                     <span className="text-sm text-slate-300 flex-1 truncate">{cat.name}</span>
                                     <span className="text-sm font-semibold text-white">
-                                        {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(cat.total)}
+                                        {fmt(cat.total)}
                                     </span>
                                 </div>
                             )) : (
