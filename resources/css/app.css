@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: #334155 #0f172a;
+    }
+    *::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    *::-webkit-scrollbar-track {
+        background: #0f172a;
+    }
+    *::-webkit-scrollbar-thumb {
+        background: #334155;
+        border-radius: 3px;
+    }
+    *::-webkit-scrollbar-thumb:hover {
+        background: #4f46e5;
+    }
+
+    /* Fix date/month input icon color in dark mode */
+    input[type="date"],
+    input[type="month"] {
+        color-scheme: dark;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+}
+
+@layer components {
+    .glass-card {
+        @apply bg-slate-800/60 border border-slate-700/50 rounded-2xl backdrop-blur;
+    }
+}
